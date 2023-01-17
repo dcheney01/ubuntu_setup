@@ -3,20 +3,12 @@
 SCRIPT_DIR="$( cd "$( dirname $0 )" && pwd )"
 SETUP_DIR="$( cd $SCRIPT_DIR/.. && pwd )"
 
-# install color functions
-sudo cp $SETUP_DIR/bin/color_functions/echo_* /usr/local/bin/
-echo_green "Color functions installed"
-
-echo_blue "installing common"
-
 sudo apt update
 sudo apt upgrade -y
 
 # create my common folder structure
 if [ ! -d ~/Documents/research ]; then mkdir ~/Documents/research; fi
 if [ ! -d ~/Documents/software ]; then mkdir ~/Documents/software; fi
-
-
 
 # terminal
 sudo apt install -y curl ssh tmux gnome-tweaks
@@ -29,7 +21,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
-echo_yellow "G++ compiler information:"
+
 sudo update-alternatives --display g++
 
 # Python
@@ -62,18 +54,14 @@ code --install-extension ms-toolsai.jupyter
 # Install Google Chrome
 REQUIRED_PKG="google-chrome-stable"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
-echo Checking for $REQUIRED_PKG: $PKG_OK
+
 if [ "" = "$PKG_OK" ]; then
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install ./google-chrome*.deb
 fi
 
-echo_green "common installed"
-
 # set the timezone
 sudo timedatectl set-timezone America/Denver
-echo_green "timezone set to MDT"
-
 
 sudo apt-get update
 sudo apt autoremove -y
